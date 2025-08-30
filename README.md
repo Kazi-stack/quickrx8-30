@@ -28,16 +28,24 @@ This project uses Netlify Functions to handle form submissions and send emails v
 Create a `.env` file in the root directory with your Gmail credentials:
 
 ```env
-# Email Configuration (Gmail)
+# Email Configuration (Gmail) - Standard naming for Netlify
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# Alternative email configuration (fallback)
 GMAIL_USER=your-email@gmail.com
 GMAIL_APP_PASSWORD=your-app-password
-
-# Alternative email configuration
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-app-password
 
 # Email Recipients
+TO_EMAIL=info@quickrx134.com
 EMAIL_TO=info@quickrx134.com
+
+# SMTP Configuration (optional)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
 
 # Environment
 NODE_ENV=development
@@ -56,9 +64,9 @@ NODE_ENV=development
 2. **Configure Environment Variables in Netlify:**
    - Go to Site Settings > Environment Variables
    - Add the same variables from your `.env` file:
-     - `GMAIL_USER`
-     - `GMAIL_APP_PASSWORD`
-     - `EMAIL_TO`
+     - `SMTP_USER` (preferred) or `GMAIL_USER`
+     - `SMTP_PASS` (preferred) or `GMAIL_APP_PASSWORD`
+     - `TO_EMAIL` (preferred) or `EMAIL_TO`
 
 3. **Deploy:**
    - Netlify will automatically deploy when you push to your main branch
@@ -131,7 +139,7 @@ All forms include:
 ### Troubleshooting
 
 #### Email Not Sending
-1. Check environment variables are set correctly
+1. Check environment variables are set correctly (prefer `SMTP_USER`/`SMTP_PASS`)
 2. Verify Gmail App Password is correct
 3. Check Netlify function logs in the dashboard
 4. Test with `/api/health/email` endpoint
@@ -150,7 +158,7 @@ All forms include:
 ```
 ├── netlify/
 │   └── functions/
-│       ├── _email.js          # Shared email utility
+│       ├── email.js           # Shared email utility
 │       ├── health.js          # Health check endpoint
 │       ├── health-email.js    # Email health check
 │       ├── contact.js         # Contact form handler

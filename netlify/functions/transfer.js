@@ -1,4 +1,4 @@
-import { createResponse, sendPharmacyEmail, isValidEmail } from './_email.js';
+import { createResponse, sendPharmacyEmail, isValidEmail } from './email.js';
 
 export async function handler(event, context) {
   // Handle OPTIONS requests for CORS preflight

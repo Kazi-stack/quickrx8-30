@@ -14,7 +14,7 @@
     "test:email-simple": "node test-email.js",
     "netlify:dev": "netlify dev",
     "netlify:build": "npm run build",
-    "test:netlify": "node -e \"import('fs').then(fs => { const functions = ['_email.js', 'health.js', 'health-email.js', 'contact.js', 'refill.js', 'transfer.js', 'feedback.js']; const missing = functions.filter(f => !fs.existsSync('netlify/functions/' + f)); if (missing.length === 0) { console.log('✅ All Netlify Functions found'); } else { console.log('❌ Missing functions:', missing.join(', ')); process.exit(1); } })\""
+    "test:netlify": "node -e \"import('fs').then(fs => { const functions = ['email.js', 'health.js', 'health-email.js', 'contact.js', 'refill.js', 'transfer.js', 'feedback.js']; const missing = functions.filter(f => !fs.existsSync('netlify/functions/' + f)); if (missing.length === 0) { console.log('✅ All Netlify Functions found'); } else { console.log('❌ Missing functions:', missing.join(', ')); process.exit(1); } })\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
