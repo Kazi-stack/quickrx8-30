@@ -1,18 +1,9 @@
-import { createResponse, sendPharmacyEmail } from './email.js';
+import { createResponse } from './_email.js';
+import { sendPharmacyEmail } from './email.js';
 
-export async function handler(event, context) {
-  // Handle OPTIONS requests for CORS preflight
-  if (event.httpMethod === 'OPTIONS') {
-    return createResponse(204, {});
-  }
-
-  // Only allow GET requests
-  if (event.httpMethod !== 'GET') {
-    return createResponse(405, { 
-      ok: false, 
-      error: 'Method not allowed' 
-    });
-  }
+export async function handler(event) {
+  if (event.httpMethod === 'OPTIONS') return createResponse(204, {});
+  if (event.httpMethod !== 'GET') return createResponse(405, { ok: false, error: 'Method not allowed' });
 
   try {
     const result = await sendPharmacyEmail({
@@ -20,7 +11,7 @@ export async function handler(event, context) {
       html: '<p>✅ QuickRX email system is working correctly.</p>',
       text: 'QuickRX email system is working correctly.',
       formType: 'health-check',
-      pageUrl: '/api/health/email'
+      pageUrl: '/api/health-email',
     });
 
     return createResponse(200, {
@@ -28,15 +19,14 @@ export async function handler(event, context) {
       message: 'Email health check successful',
       correlationId: result.correlationId,
       messageId: result.messageId,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('Email health check failed:', error);
     return createResponse(500, {
       ok: false,
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
-} 
+}
